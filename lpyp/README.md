@@ -7,7 +7,7 @@ A command line argument parser for C, built using only libft functions.
 ### 1. Define Your Options
 
 ```c
-t_lpyp_option options[] = {
+t_lpyp_options options[] = {
     {'v', "verbose", 'v', LPYP_NO_ARG, "Enable verbose output", NULL},
     {'o', "output", 'o', LPYP_REQUIRED_ARG | LPYP_DENY_DUPLICATE, "Specify output file", "FILE"},
     {'h', "help", 'h', LPYP_NO_ARG, "Show this help message", NULL},
@@ -59,10 +59,10 @@ if (lpyp_parse(&data, argc, argv, options, my_parser) != 0)
 
 ### Structures
 
-#### `t_lpyp_option`
+#### `t_lpyp_options`
 
 ```c
-typedef struct s_lpyp_option
+typedef struct s_lpyp_options
 {
     char            short_name;     /* Single character option (-v) */
     char            *long_name;     /* Long option name (--verbose) */
@@ -70,7 +70,7 @@ typedef struct s_lpyp_option
     int             flags;          /* Option behavior flags */
     char            *description;   /* Help text description */
     char            *arg_name;      /* Argument name for help (e.g., "FILE") */
-}   t_lpyp_option;
+}   t_lpyp_options;
 ```
 
 ### Flags
@@ -91,7 +91,7 @@ typedef struct s_lpyp_option
 #### `lpyp_parse`
 
 ```c
-int lpyp_parse(void *data, int argc, char **argv, t_lpyp_option *options, t_lpyp_parser parser_func);
+int lpyp_parse(void *data, int argc, char **argv, t_lpyp_options *options, t_lpyp_parser parser_func);
 ```
 
 Main parsing function. Returns 0 on success, 1 on error.
@@ -99,7 +99,7 @@ Main parsing function. Returns 0 on success, 1 on error.
 #### `lpyp_help`
 
 ```c
-int lpyp_help(t_lpyp_option *options, char *program_name, char *description);
+int lpyp_help(t_lpyp_options *options, char *program_name, char *description);
 ```
 
 Prints detailed help information including usage and option descriptions.
@@ -107,7 +107,7 @@ Prints detailed help information including usage and option descriptions.
 #### `lpyp_usage`
 
 ```c
-int lpyp_usage(t_lpyp_option *options, char *program_name);
+int lpyp_usage(t_lpyp_options *options, char *program_name);
 ```
 
 Prints concise usage information.

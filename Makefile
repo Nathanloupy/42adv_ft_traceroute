@@ -44,7 +44,4 @@ fclean: clean
 
 re: fclean all
 
-run: all
-	@./$(NAME) $(ip)
-
-.PHONY: all clean fclean re run
+.PHONY: all clean fclean re

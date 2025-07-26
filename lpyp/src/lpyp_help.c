@@ -1,9 +1,9 @@
 #include "lpyp.h"
 
 /* Function to print usage information */
-int lpyp_usage(t_lpyp_option *options, char *program_name)
+int	lpyp_usage(t_lpyp_options *options, char *program_name)
 {
-	int i;
+	int	i;
 	
 	ft_putstr_fd("Usage: ", 1);
 	if (program_name)
@@ -33,12 +33,12 @@ int lpyp_usage(t_lpyp_option *options, char *program_name)
 }
 
 /* Function to print detailed help */
-int lpyp_help(t_lpyp_option *options, char *program_name, char *description)
+int	lpyp_help(t_lpyp_options *options, char *program_name, char *description)
 {
-	int i;
-	int max_width;
-	int current_width;
-	char *option_str;
+	int		i;
+	int		max_width;
+	int 	current_width;
+	char	*option_str;
 	
 	lpyp_usage(options, program_name);
 	

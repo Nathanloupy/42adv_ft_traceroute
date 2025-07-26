@@ -1,9 +1,9 @@
 #include "lpyp.h"
 
 /* Helper function to check if option key has been seen before */
-static int check_duplicate(unsigned int *seen_keys, int seen_count, unsigned int key)
+static int	check_duplicate(unsigned int *seen_keys, int seen_count, unsigned int key)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < seen_count)
@@ -18,7 +18,7 @@ static int check_duplicate(unsigned int *seen_keys, int seen_count, unsigned int
 
 
 /* Helper function to find option by short name */
-static t_lpyp_option *find_short_option(t_lpyp_option *options, char c)
+static t_lpyp_options	*find_short_option(t_lpyp_options *options, char c)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ static t_lpyp_option *find_short_option(t_lpyp_option *options, char c)
 }
 
 /* Helper function to find option by long name */
-static t_lpyp_option *find_long_option(t_lpyp_option *options, char *name)
+static t_lpyp_options	*find_long_option(t_lpyp_options *options, char *name)
 {
 	int	i;
 
@@ -49,9 +49,9 @@ static t_lpyp_option *find_long_option(t_lpyp_option *options, char *name)
 }
 
 /* Helper function to handle short options */
-static int handle_short_option(char c, t_lpyp_option *options, char **argv, int *i, int argc, void *data, t_lpyp_parser parser_func, unsigned int *seen_keys, int *seen_count)
+static int	handle_short_option(char c, t_lpyp_options *options, char **argv, int *i, int argc, void *data, t_lpyp_parser parser_func, unsigned int *seen_keys, int *seen_count)
 {
-	t_lpyp_option	*option;
+	t_lpyp_options	*option;
 	char			*argument;
 
 	option = find_short_option(options, c);
@@ -100,9 +100,9 @@ static int handle_short_option(char c, t_lpyp_option *options, char **argv, int 
 }
 
 /* Helper function to handle long options */
-static int handle_long_option(char *arg, t_lpyp_option *options, char **argv, int *i, int argc, void *data, t_lpyp_parser parser_func, unsigned int *seen_keys, int *seen_count)
+static int	handle_long_option(char *arg, t_lpyp_options *options, char **argv, int *i, int argc, void *data, t_lpyp_parser parser_func, unsigned int *seen_keys, int *seen_count)
 {
-	t_lpyp_option	*option;
+	t_lpyp_options	*option;
 	char			*option_name;
 	char			*argument;
 	char			*eq_pos;
@@ -173,7 +173,7 @@ static int handle_long_option(char *arg, t_lpyp_option *options, char **argv, in
 }
 
 /* Main parsing function */
-int lpyp_parse(void *data, int argc, char **argv, t_lpyp_option *options, t_lpyp_parser parser_func)
+int	lpyp_parse(void *data, int argc, char **argv, t_lpyp_options *options, t_lpyp_parser parser_func)
 {
 	int	i;
 	int	j;
