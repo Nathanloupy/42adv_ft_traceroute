@@ -105,6 +105,7 @@ static void init_context_defaults(t_traceroute_context *context)
  */
 int	parse_arguments(int argc, char *argv[], t_traceroute_context *context)
 {
+	ft_memset(context, 0, sizeof(t_traceroute_context));
 	init_context_defaults(context);
 	return (lpyp_parse(context, argc, argv, ft_traceroute_options, ft_traceroute_parser));
 }

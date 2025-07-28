@@ -11,17 +11,17 @@ LPYP_DIR = lpyp
 LPYP_LIB = $(LPYP_DIR)/lpyp.a
 LIBFT_LIB = $(LPYP_DIR)/libft/libft.a
 
-SRCS_MAIN = src/main.c
-
-SRCS_CORE = src/parser.c
+SRCS_MAIN = src/main.c \
+			src/parser.c \
+			src/socket.c \
+			src/header.c \
 
 SRCS_UTILS = src/utils/time.c
 
 OBJS_MAIN = $(SRCS_MAIN:.c=.o)
-OBJS_CORE = $(SRCS_CORE:.c=.o)
 OBJS_UTILS = $(SRCS_UTILS:.c=.o)
 
-OBJS = $(OBJS_MAIN) $(OBJS_CORE) $(OBJS_UTILS)
+OBJS = $(OBJS_MAIN) $(OBJS_UTILS)
 
 %.o: %.c
 	@$(CC) $(CCFLAGS) $(INCLUDES) -c $< -o $@

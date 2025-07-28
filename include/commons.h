@@ -3,6 +3,12 @@
 /* LIBS */
 #include <sys/time.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/ip.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include "lpyp.h"
 
 /* UTILS */
@@ -30,9 +36,16 @@ typedef struct s_traceroute_context
 
 typedef struct s_traceroute_exec
 {
-	pid_t	pid;
-	int		socket_fd;
+	pid_t					pid;
+	int						socket_fd;
+	struct sockaddr_in		dest_addr;
 }	t_traceroute_exec;
 
 /* PARSER */
 int		parse_arguments(int argc, char *argv[], t_traceroute_context *context);
+
+/* SOCKET */
+int		initialize_icmp_socket(t_traceroute_context *context, t_traceroute_exec *exec);
+
+/* HEADER */
+int		print_header(t_traceroute_context *context);

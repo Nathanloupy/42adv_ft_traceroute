@@ -1,12 +1,41 @@
 #include "commons.h"
+#include <sys/socket.h>
 
-int main(int argc, char *argv[])
+/*
+Steps to trace a route :
+1 - parsing (done)
+2 - DNS resolution to host_address (done)
+3 - set socket (done)
+4 - print description (first line) of traceroute
+5 - from <initial_ttl> to <max_ttl> (unless destination reached)
+		* set socket ttl and prepare packet
+		* from 1 to <tries_per_hop>
+			. send packet
+			. wait <wait_response> like in ping
+			. print the hop ip if not already printed on the hop wait
+*/
+
+static void	safe_exit(t_traceroute_exec *exec)
 {
-    t_traceroute_context	context;
+	if (exec->socket_fd > 2)
+	{
+		close(exec->socket_fd);
+		exec->socket_fd = -1;
+	}
+}
 
-	ft_memset(&context, 0, sizeof(context));
+int	main(int argc, char *argv[])
+{
+	t_traceroute_context	context;
+	t_traceroute_exec		exec;
 
-    if (parse_arguments(argc, argv, &context))
+	ft_memset(&exec, 0, sizeof(t_traceroute_exec));
+
+	if (parse_arguments(argc, argv, &context))
 		return (1);
-    return (0);
+	if (initialize_icmp_socket(&context, &exec))
+		return (safe_exit(&exec), 1);
+	if (print_header(&context))
+		return (safe_exit(&exec), 1);
+	return (safe_exit(&exec), 0);
 }
