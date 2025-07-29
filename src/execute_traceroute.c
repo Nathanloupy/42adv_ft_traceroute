@@ -2,11 +2,28 @@
 
 /*
  * Helper function to print the address depending on whether or not the resolving of hostnames is enabled
-*/
+ */
 static int	print_address(t_traceroute_exec *exec, struct sockaddr_in *addr)
 {
-	(void)exec;
-	printf("%s  ", inet_ntoa(addr->sin_addr));
+	char	hostname[NI_MAXHOST];
+	int		result;
+
+	if (!inet_ntoa(addr->sin_addr))
+		return (1);
+	
+	if (exec->context->flags & FLAG_RESOLVE_HOSTNAMES)
+	{
+		result = getnameinfo((struct sockaddr*)addr, sizeof(*addr), 
+							hostname, sizeof(hostname), NULL, 0, 0);
+		if (result == 0)
+			printf("%s (%s)  ", inet_ntoa(addr->sin_addr), hostname);
+		else
+			printf("%s (%s)  ", inet_ntoa(addr->sin_addr), inet_ntoa(addr->sin_addr));
+	}
+	else
+	{
+		printf("%s  ", inet_ntoa(addr->sin_addr));
+	}
 	return (0);
 }
 
@@ -34,7 +51,8 @@ static int	single_try(int *is_first, int *is_first_successful, t_traceroute_exec
 			}
 			if (*is_first_successful || exec->hop_addr.sin_addr.s_addr != exec->last_hop_addr.sin_addr.s_addr)
 			{
-				print_address(exec, &exec->hop_addr);
+				if (print_address(exec, &exec->hop_addr))
+					return (1);
 				*is_first_successful = 0;
 				exec->last_hop_addr = exec->hop_addr;
 			}
