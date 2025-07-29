@@ -1,13 +1,14 @@
 #include "commons.h"
 
 /*
-TODO: remove later :
-1 - send packet
-2 - wait for reply
-3 - if first try, print the hop_index
-4 - if first success, print ip additionnal to timestamp
-5 - on fail, print '*  '
+ * Helper function to print the address depending on whether or not the resolving of hostnames is enabled
 */
+static int	print_address(t_traceroute_exec *exec, struct sockaddr_in *addr)
+{
+	(void)exec;
+	printf("%s  ", inet_ntoa(addr->sin_addr));
+	return (0);
+}
 
 /*
  * Helper function to handle a single try
@@ -31,12 +32,14 @@ static int	single_try(int *is_first, int *is_first_successful, t_traceroute_exec
 				printf("%3d  ", exec->hop_index);
 				*is_first = 0;
 			}
-			if (*is_first_successful)
+			if (*is_first_successful || exec->hop_addr.sin_addr.s_addr != exec->last_hop_addr.sin_addr.s_addr)
 			{
-				printf("%s  ", "<IP received>");
+				print_address(exec, &exec->hop_addr);
 				*is_first_successful = 0;
+				exec->last_hop_addr = exec->hop_addr;
 			}
-			printf("%.3fms  ", 9.9999999);
+			printf("%.3fms  ", exec->response_time_ms);
+			fflush(stdout);
 			return (0);
 		case FT_TRACEROUTE_TIMEOUT:
 			if (*is_first)
@@ -62,8 +65,12 @@ static int	single_hop(t_traceroute_exec *exec)
 	int	is_first_successful = 1;
 	int	temp_ttl = exec->current_ttl;
 
+	ft_memset(&exec->last_hop_addr, 0, sizeof(exec->last_hop_addr));
 	if (setsockopt(exec->socket_fd, IPPROTO_IP, IP_TTL, &temp_ttl, sizeof(temp_ttl)) < 0)
-		return (perror("setsockopt (IP_TTL)"), 1); //TODO: replace to remove forbidden function
+	{
+		perror("setsockopt (IP_TTL)"); //TODO: replace to remove forbidden function
+		return (1);
+	}
 	for (int try = 0; try < exec->context->tries_per_hop; try++)
 	{
 		if (single_try(&is_first, &is_first_successful, exec))
@@ -78,13 +85,13 @@ static int	single_hop(t_traceroute_exec *exec)
 */
 int	execute_traceroute(t_traceroute_exec *exec)
 {
-	int	dest_reached = 0;
+	exec->dest_reached = 0;
 	exec->current_ttl = exec->context->initial_ttl;
 	exec->hop_index = 1;
 	exec->seq_num = 1;
 	exec->packet_size = DEFAULT_PACKET_SIZE;
 
-	while (!dest_reached && exec->hop_index <= exec->context->max_hop_count)
+	while (!exec->dest_reached && exec->hop_index <= exec->context->max_hop_count)
 	{	
 		if (single_hop(exec))
 			return (1);

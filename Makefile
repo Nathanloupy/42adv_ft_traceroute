@@ -19,6 +19,7 @@ SRCS_MAIN = src/main.c \
 			src/execute_traceroute.c \
 			src/send_packet.c \
 			src/wait_packet.c \
+			src/process_received_packet.c
 
 SRCS_UTILS = src/utils/time.c \
 				src/utils/checksum.c

@@ -24,6 +24,7 @@
 #define TRACEROUTE_MAX_DATALEN (65535 - MAXIPLEN - MAXICMPLEN)
 #define DEFAULT_PACKET_SIZE 56
 #define ICMP_DATA_PATTERN_MODULO 256
+#define DEFAULT_BUFFER_SIZE 2048
 
 /* DEFINES - FLAGS */
 #define FLAG_RESOLVE_HOSTNAMES	(1 << 0) /* -r, --resolve-hostnames flag */
@@ -54,6 +55,9 @@ typedef struct s_traceroute_exec
 	size_t						packet_size;
 	struct timeval				send_time;
 	struct timeval				recv_time;
+	struct sockaddr_in			last_hop_addr;
+	struct sockaddr_in			hop_addr;
+	double						response_time_ms;
 }	t_traceroute_exec;
 
 /* RETURN CODES */
@@ -61,7 +65,6 @@ enum e_ft_traceroute_ret_code
 {
 	FT_TRACEROUTE_ERROR = -1,
 	FT_TRACEROUTE_OK = 0,
-
 	FT_TRACEROUTE_TIMEOUT = 1,
 	FT_TRACEROUTE_NO_REPLY = 2,
 };
@@ -86,3 +89,6 @@ int		send_packet(t_traceroute_exec *exec);
 
 /* WAIT PACKET */
 int		wait_packet(t_traceroute_exec *exec);
+
+/* PROCESS RECEIVED PACKET */
+int		process_received_packet(t_traceroute_exec *exec);
