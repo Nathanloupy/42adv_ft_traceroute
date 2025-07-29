@@ -1,4 +1,5 @@
 #include "commons.h"
+#include <stdio.h>
 
 /*
  * Helper function to print the address depending on whether or not the resolving of hostnames is enabled
@@ -37,7 +38,7 @@ static int	single_try(int *is_first, int *is_first_successful, t_traceroute_exec
 	create_packet(&exec->icmp_hdr, exec->packet, exec->seq_num, exec->packet_size, exec);
 	if (send_packet(exec) < 0)
 	{
-		perror("sendto"); //TODO: replace to remove forbidden function
+		fprintf(stderr, "ft_traceroute: sendto: %s\n", strerror(errno));
 		return (1);
 	}
 	result = wait_packet(exec);
@@ -86,7 +87,7 @@ static int	single_hop(t_traceroute_exec *exec)
 	ft_memset(&exec->last_hop_addr, 0, sizeof(exec->last_hop_addr));
 	if (setsockopt(exec->socket_fd, IPPROTO_IP, IP_TTL, &temp_ttl, sizeof(temp_ttl)) < 0)
 	{
-		perror("setsockopt (IP_TTL)"); //TODO: replace to remove forbidden function
+		fprintf(stderr, "ft_traceroute: setsockopt (IP_TTL): %s\n", strerror(errno));
 		return (1);
 	}
 	for (int try = 0; try < exec->context->tries_per_hop; try++)

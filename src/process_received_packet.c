@@ -63,7 +63,7 @@ int	process_received_packet(t_traceroute_exec *exec)
 	exec->response_time_ms = get_elapsedtime_ms(&exec->send_time, &exec->recv_time);
 	if (bytes_received < 0)
 	{
-		perror("recvfrom"); //TODO: replace to remove forbidden function
+		fprintf(stderr, "ft_traceroute: recvfrom: %s\n", strerror(errno));
 		return (FT_TRACEROUTE_ERROR);
 	}
 	else if (!bytes_received)

@@ -22,7 +22,7 @@ int	wait_packet(t_traceroute_exec *exec)
 		ret = select(exec->socket_fd + 1, &rfds, NULL, NULL, &tv);
 		if (ret < 0)
 		{
-			perror("select"); //TODO: replace to remove forbidden function
+			fprintf(stderr, "ft_traceroute: select: %s\n", strerror(errno));
 			return (FT_TRACEROUTE_ERROR);
 		}
 		else if (!ret)

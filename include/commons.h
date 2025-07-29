@@ -9,12 +9,15 @@
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 #include <netdb.h>
+#include <errno.h>
+#include <string.h>
 #include "lpyp.h"
 
 /* UTILS */
 #include "utils.h"
 
 /* DEFINES - GENERAL */
+#define FT_TRACEROUTE_NAME "ft_traceroute"
 #define DEFAULT_INITIAL_TTL 1
 #define DEFAULT_MAX_HOP_COUNT 64
 #define DEFAULT_TRIES_PER_HOP 3
