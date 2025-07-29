@@ -21,7 +21,7 @@ SRCS_MAIN = src/main.c \
 			src/wait_packet.c \
 
 SRCS_UTILS = src/utils/time.c \
-				src/utils/icmp.c
+				src/utils/checksum.c
 
 OBJS_MAIN = $(SRCS_MAIN:.c=.o)
 OBJS_UTILS = $(SRCS_UTILS:.c=.o)

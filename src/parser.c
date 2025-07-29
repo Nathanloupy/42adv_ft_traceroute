@@ -31,8 +31,8 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 			}
 			break;
 		case 'm':
-			context->max_ttl = ft_atoi(argument);
-			if (context->max_ttl <= 0)
+			context->max_hop_count = ft_atoi(argument);
+			if (context->max_hop_count <= 0)
 			{
 				fprintf(stderr, "ft_traceroute: invalid maximal hop count value: %s\n", argument);
 				return (1);
@@ -93,7 +93,7 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 static void init_context_defaults(t_traceroute_context *context)
 {
 	context->initial_ttl = DEFAULT_INITIAL_TTL;
-	context->max_ttl = DEFAULT_MAX_TTL;
+	context->max_hop_count = DEFAULT_MAX_HOP_COUNT;
 	context->tries_per_hop = DEFAULT_TRIES_PER_HOP;
 	context->wait_response = DEFAULT_WAIT_RESPONSE;
 	context->flags = 0;

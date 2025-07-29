@@ -7,7 +7,7 @@ Steps to trace a route :
 2 - DNS resolution to host_address (done)
 3 - set socket (done)
 4 - print header of traceroute (done)
-5 - from <initial_ttl> to <max_ttl> (unless destination reached)
+5 - from 1 to max_hop_count (unless destination reached)
 		* set socket ttl and prepare packet
 		* from 1 to <tries_per_hop>
 			. send packet

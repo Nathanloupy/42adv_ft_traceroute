@@ -16,12 +16,13 @@
 
 /* DEFINES - GENERAL */
 #define DEFAULT_INITIAL_TTL 1
-#define DEFAULT_MAX_TTL 64
+#define DEFAULT_MAX_HOP_COUNT 64
 #define DEFAULT_TRIES_PER_HOP 3
 #define DEFAULT_WAIT_RESPONSE 3
 #define MAXIPLEN 60
 #define MAXICMPLEN 76
 #define TRACEROUTE_MAX_DATALEN (65535 - MAXIPLEN - MAXICMPLEN)
+#define DEFAULT_PACKET_SIZE 56
 #define ICMP_DATA_PATTERN_MODULO 256
 
 /* DEFINES - FLAGS */
@@ -31,7 +32,7 @@
 typedef struct s_traceroute_context
 {
 	int				initial_ttl;
-	int				max_ttl;
+	int				max_hop_count;
 	int				tries_per_hop;
 	int				wait_response;
 	unsigned int	flags;

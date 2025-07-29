@@ -28,7 +28,7 @@ int	wait_packet(t_traceroute_exec *exec)
 		else if (!ret)
 			return (FT_TRACEROUTE_TIMEOUT);
 
-		ret = process_received_packet(exec);
+		ret = FT_TRACEROUTE_OK; //process_received_packet(exec);
 		switch (ret)
 		{
 			case FT_TRACEROUTE_OK:

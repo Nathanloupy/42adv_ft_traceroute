@@ -10,7 +10,7 @@ int print_header(t_traceroute_exec *exec)
 	char				ip_str[INET_ADDRSTRLEN];
 	
 	if (inet_pton(AF_INET, exec->context->dest_host, ip_str) > 0)
-		printf("traceroute to %s (%s), %d hops max\n", exec->context->dest_host, exec->context->dest_host, exec->context->max_ttl);
+		printf("traceroute to %s (%s), %d hops max\n", exec->context->dest_host, exec->context->dest_host, exec->context->max_hop_count);
 	else
 	{
 		ft_memset(&hints, 0, sizeof(hints));
@@ -25,7 +25,7 @@ int print_header(t_traceroute_exec *exec)
 			freeaddrinfo(result);
 			return (1);
 		}
-		printf("traceroute to %s (%s), %d hops max\n", exec->context->dest_host, inet_ntoa(addr_in->sin_addr), exec->context->max_ttl);
+		printf("traceroute to %s (%s), %d hops max\n", exec->context->dest_host, inet_ntoa(addr_in->sin_addr), exec->context->max_hop_count);
 		freeaddrinfo(result);
 	}
 	return (0);
