@@ -24,7 +24,7 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 	{
 		case 'f':
 			context->initial_ttl = ft_atoi(argument);
-			if (context->initial_ttl <= 0)
+			if (context->initial_ttl <= 0 || context->initial_ttl > 255)
 			{
 				fprintf(stderr, "ft_traceroute: invalid initial hop distance value: %s\n", argument);
 				return (1);
@@ -32,7 +32,7 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 			break;
 		case 'm':
 			context->max_hop_count = ft_atoi(argument);
-			if (context->max_hop_count <= 0)
+			if (context->max_hop_count <= 0 || context->max_hop_count > 255)
 			{
 				fprintf(stderr, "ft_traceroute: invalid maximal hop count value: %s\n", argument);
 				return (1);
@@ -40,7 +40,7 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 			break;
 		case 'q':
 			context->tries_per_hop = ft_atoi(argument);
-			if (context->tries_per_hop <= 0)
+			if (context->tries_per_hop <= 0 || context->tries_per_hop > 10)
 			{
 				fprintf(stderr, "ft_traceroute: invalid probe packets per hop value: %s\n", argument);
 				return (1);
@@ -53,7 +53,12 @@ static int	ft_traceroute_parser(unsigned int key, void *data, char *argument)
 			context->wait_response = ft_atoi(argument);
 			if (context->wait_response <= 0)
 			{
-				fprintf(stderr, "ft_traceroute: invalid wait for response value: %s\n", argument);
+				fprintf(stderr, "ft_traceroute: invalid waiting time: %s\n", argument);
+				return (1);
+			}
+			if (context->wait_response > 60)
+			{
+				fprintf(stderr, "ft_traceroute: ridiculous waiting time: %s\n", argument);
 				return (1);
 			}
 			break;

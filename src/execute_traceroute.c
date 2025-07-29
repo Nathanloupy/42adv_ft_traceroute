@@ -29,7 +29,7 @@ static int	single_try(int *is_first, int *is_first_successful, t_traceroute_exec
 		case FT_TRACEROUTE_OK:
 			if (*is_first)
 			{
-				printf("%3d  ", exec->hop_index);
+				printf("%3d   ", exec->hop_index);
 				*is_first = 0;
 			}
 			if (*is_first_successful || exec->hop_addr.sin_addr.s_addr != exec->last_hop_addr.sin_addr.s_addr)
