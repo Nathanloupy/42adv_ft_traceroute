@@ -6,7 +6,7 @@ Steps to trace a route :
 1 - parsing (done)
 2 - DNS resolution to host_address (done)
 3 - set socket (done)
-4 - print description (first line) of traceroute
+4 - print header of traceroute (done)
 5 - from <initial_ttl> to <max_ttl> (unless destination reached)
 		* set socket ttl and prepare packet
 		* from 1 to <tries_per_hop>
@@ -30,12 +30,16 @@ int	main(int argc, char *argv[])
 	t_traceroute_exec		exec;
 
 	ft_memset(&exec, 0, sizeof(t_traceroute_exec));
+	exec.context = &context;
+	exec.pid = getpid() & 0xFFFF;
 
 	if (parse_arguments(argc, argv, &context))
 		return (1);
-	if (initialize_icmp_socket(&context, &exec))
+	if (initialize_icmp_socket(&exec))
 		return (safe_exit(&exec), 1);
-	if (print_header(&context))
+	if (print_header(&exec))
+		return (safe_exit(&exec), 1);
+	if (execute_traceroute(&exec))
 		return (safe_exit(&exec), 1);
 	return (safe_exit(&exec), 0);
 }

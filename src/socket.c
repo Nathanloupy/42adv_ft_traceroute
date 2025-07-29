@@ -10,7 +10,7 @@ int	initialize_icmp_socket(t_traceroute_context *context, t_traceroute_exec *exe
 	exec->socket_fd = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
 	if (exec->socket_fd == -1)
 	{
-		perror("socket");
+		perror("socket"); //TODO: replace to remove forbidden function
 		return (1);
 	}
 	

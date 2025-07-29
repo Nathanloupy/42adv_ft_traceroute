@@ -15,8 +15,13 @@ SRCS_MAIN = src/main.c \
 			src/parser.c \
 			src/socket.c \
 			src/header.c \
+			src/create_packet.c \
+			src/execute_traceroute.c \
+			src/send_packet.c \
+			src/wait_packet.c \
 
-SRCS_UTILS = src/utils/time.c
+SRCS_UTILS = src/utils/time.c \
+				src/utils/icmp.c
 
 OBJS_MAIN = $(SRCS_MAIN:.c=.o)
 OBJS_UTILS = $(SRCS_UTILS:.c=.o)
